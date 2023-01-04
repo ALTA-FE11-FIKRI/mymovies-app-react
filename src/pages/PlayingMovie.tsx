@@ -8,6 +8,7 @@ interface PlayingProps {
 export class PlayingMovie extends Component<PlayingProps> {
   render() {
     return (
+      
       <div className="card-compact card rounded-lg bg-zinc-500 shadow-lg shadow-black dark:bg-base-100 transform transition duration-500 hover:z-20 hover:scale-110">
         <figure className="px-10 pt-10">
           <img
@@ -15,6 +16,7 @@ export class PlayingMovie extends Component<PlayingProps> {
             alt={this.props.title}
             className="rounded-xl"
           />
+
         </figure>
         <div className="card-body items-center justify-between text-center">
           <h2 className="card-title text-white">{this.props.title}</h2>
