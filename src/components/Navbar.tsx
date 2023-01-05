@@ -3,13 +3,13 @@ import React, { Component } from 'react'
 export default class Navbar extends Component {
   render() {
     return (
-        <div className="navbar bg-base-100">
+        <div className="navbar sticky top-0 z-50 border-gray-200 bg-zinc-900">
         <div className="flex-1">
-          <a className="btn btn-ghost normal-case text-xl">Fianda</a>
+          <a className="flex-1 text-2xl text-white">Cinephile</a>
         </div>
-        <div className="flex-none gap-2">
+        <div className="flex-none gap-3">
           <div className="form-control">
-            <input type="text" placeholder="Search" className="input input-bordered" />
+            <input type="text" placeholder="Search" className="input w-full bg-white text-black shadow-sm placeholder:italic focus:border-black focus:outline-none focus:ring-1 focus:ring-black" />
           </div>
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
@@ -21,7 +21,6 @@ export default class Navbar extends Component {
               <li>
                 <a className="justify-between">
                   Profile
-                  <span className="badge">New</span>
                 </a>
               </li>
               <li><a>Settings</a></li>

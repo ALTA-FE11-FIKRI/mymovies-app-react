@@ -1,30 +1,117 @@
-import React, { Component } from "react";
+import { FC, ReactNode, useState, useRef, useEffect } from "react";
 
 interface HeroProps {
-  title: string;
-  image: string;
+  datas: any[];
+  content: (data: any) => ReactNode;
 }
 
-export default class Hero extends Component<HeroProps> {
-  render() {
-    return (
-      <div
-        className="hero min-h-[50vh] bg-no-repeat lg:bg-top d-none d-block"
-        style={{
-          backgroundImage: `url("https://image.tmdb.org/t/p/original/dIWwZW7dJJtqC6CgWzYkNVKIUm8.jpg")`,
-        }}
-      >
-        <div className="hero-overlay bg-opacity-60"></div>
-        <div className="hero-content text-center text-neutral-content">
-          <div className="max-w-md">
-            <h1 className="mb-5 text-5xl font-bold">Kimi No nawa</h1>
-            <p className="mb-5">
-            High schoolers Mitsuha and Taki are complete strangers living separate lives. But one night, they suddenly switch places. Mitsuha wakes up in Taki's body, and he in hers. This bizarre occurrence continues to happen randomly, and the two must adjust their lives around each other.
-            </p>
-            <button className="btn bg-zinc-500 p-2 font-bold text-white hover: bg-zinc-400/90 dark:bg-zinc-800 dark:hover:bg-zinc-700/90">SEE DETAIL</button>
-          </div>
+const Hero: FC<HeroProps> = ({ datas, content }) => {
+  const maxScrollWidth = useRef(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const hero = useRef<HTMLDivElement>(null);
+
+  const movePrev = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex((prevState) => prevState - 1);
+    }
+  };
+
+  const moveNext = () => {
+    if (
+      hero.current !== null &&
+      hero.current.offsetWidth * currentIndex <= maxScrollWidth.current
+    ) {
+      setCurrentIndex((prevState) => prevState + 1);
+    }
+  };
+
+  const isDisabled = (direction: string) => {
+    if (direction === "prev") {
+      return currentIndex <= 0;
+    }
+
+    if (direction === "next" && hero.current !== null) {
+      return (
+        hero.current.offsetWidth * currentIndex >= maxScrollWidth.current
+      );
+    }
+
+    return false;
+  };
+
+  useEffect(() => {
+    if (hero !== null && hero.current !== null) {
+      hero.current.scrollLeft = hero.current.offsetWidth * currentIndex;
+    }
+  }, [currentIndex]);
+
+  useEffect(() => {
+    maxScrollWidth.current = hero.current
+      ? hero.current.scrollWidth - hero.current.offsetWidth
+      : 0;
+  }, []);
+
+  return (
+    <div className="h-96 w-full">
+      <div className="relative h-full w-full overflow-hidden">
+        <div className="top left absolute flex h-full w-full justify-between">
+          <button
+            id="carousel-prev"
+            className="z-10 m-0 h-full w-10 p-0 text-center text-white opacity-75 transition-all duration-300 ease-in-out hover:bg-white/30 hover:opacity-100 disabled:cursor-not-allowed disabled:opacity-25 dark:hover:bg-black/30"
+            onClick={movePrev}
+            disabled={isDisabled("prev")}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="-ml-5 h-12 w-20"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </button>
+          <button
+            id="carousel-next"
+            className="z-10 m-0 h-full w-10 p-0 text-center text-white opacity-75 transition-all duration-300 ease-in-out hover:bg-white/30 hover:opacity-100 disabled:cursor-not-allowed disabled:opacity-25 dark:hover:bg-black/30"
+            onClick={moveNext}
+            disabled={isDisabled("next")}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="-ml-5 h-12 w-20"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </button>
+        </div>
+        <div className="carousel w-full h-full" ref={hero}>
+          {datas.map((data, index) => (
+            <div
+              id={index.toString()}
+              key={index}
+              className="carousel-item relative w-full h-full"
+            >
+              {content(data)}
+            </div>
+          ))}
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
+
+export default Hero;

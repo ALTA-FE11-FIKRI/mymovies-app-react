@@ -1,8 +1,7 @@
-import React, { Component } from "react";
+import { ButtonHTMLAttributes, Component } from "react";
 
-interface ButtonProps {
-  label: string;
-  onClick?: () => void;
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  label: string
 }
 
 export class Button extends Component<ButtonProps> {
@@ -10,7 +9,7 @@ export class Button extends Component<ButtonProps> {
     return (
       <button
         className="bg-gray-600 border border-black-500"
-        onClick={this.props.onClick}
+        {...this.props}
       >
         {this.props.label}
       </button>
