@@ -6,6 +6,6 @@ import DetailMovie from './pages/DetailMovie'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <App />
+    <DetailMovie />
   </React.StrictMode>,
 );
