@@ -1,13 +1,13 @@
 import { FC, ReactNode, useState, useRef, useEffect, Component } from "react";
 
-interface HeroProps {
+interface CarouselProps {
   datas: any[];
   content: (data: any) => ReactNode;
 }
 
 
 
-const Hero: FC<HeroProps> = ({ datas, content }) => {
+const Hero: FC<CarouselProps> = ({ datas, content }) => {
   const maxScrollWidth = useRef(0);
   const [currentIndex, setCurrentIndex] = useState(0);
   const hero = useRef<HTMLDivElement>(null);
@@ -54,7 +54,7 @@ const Hero: FC<HeroProps> = ({ datas, content }) => {
   }, []);
 
   return (
-    <div className="h-96 w-full ">
+      <div className="h-96 w-full ">
       <div className="relative h-full w-full overflow-hidden">
         <div className="top left absolute flex h-full w-full justify-between">
           <button
@@ -100,12 +100,13 @@ const Hero: FC<HeroProps> = ({ datas, content }) => {
             </svg>
           </button>
         </div>
-        <div className="carousel w-full h-full" ref={hero}>
+        <div className="carousel w-full h-full gap-3"
+         ref={hero}>
           {datas.map((data, index) => (
             <div
               id={index.toString()}
               key={index}
-              className="carousel-item relative w-full h-full"
+              className="carousel-item relative w-[66vh] h-full"
             >
               {content(data)}
             </div>

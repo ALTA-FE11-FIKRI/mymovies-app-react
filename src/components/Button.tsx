@@ -8,7 +8,7 @@ export class Button extends Component<ButtonProps> {
   render() {
     return (
       <button
-        className="bg-gray-600 border border-black-500"
+        className="btn "
         {...this.props}
       >
         {this.props.label}

@@ -8,6 +8,7 @@ import Layout from "../components/Layout";
 import Hero from "../components/Hero";
 import Card from "../components/Card";
 import { MovieType } from "../utils/types/movie";
+import Carousel from "../components/Carousel";
 
 interface PropsType {}
 
@@ -17,6 +18,7 @@ interface StateType {
   page: number;
   totalPage: number;
 }
+
 
 export default class Index extends Component<PropsType, StateType> {
   constructor(props: PropsType) {
@@ -28,10 +30,12 @@ export default class Index extends Component<PropsType, StateType> {
       totalPage: 1,
     };
   }
-
+  
+  
   componentDidMount() {
     this.fetchData(1);
   }
+  
 
   fetchData(page: number) {
     axios
@@ -48,6 +52,18 @@ export default class Index extends Component<PropsType, StateType> {
         alert(error.toString());
       })
       .finally(() => this.setState({ loading: false }));
+  }
+
+  nextPage() {
+    const newPage = this.state.page + 1;
+    this.setState({ page: newPage });
+    this.fetchData(newPage);
+  }
+
+  prevPage() {
+    const newPage = this.state.page -1;
+    this.setState({ page: newPage});
+    this.fetchData(newPage);
   }
 
   handleFavorite(data: MovieType) {
@@ -75,7 +91,7 @@ export default class Index extends Component<PropsType, StateType> {
                   backgroundImage: `linear-gradient(
                     rgba(0, 0, 0, 0.5),
                     rgba(0, 0, 0, 0.5)
-                  ), url(https://image.tmdb.org/t/p/original${datas.poster_path})`,
+                  ), url(https://image.tmdb.org/t/p/original${datas.poster_path}) `, 
                 }}
               >
                 <div className="hero-content text-center text-neutral-content">
@@ -88,6 +104,32 @@ export default class Index extends Component<PropsType, StateType> {
             )}
           />
         )}
+        <div>
+        <h1 className="my-10 text-center text-5xl text-salte-900 dak:text-white">
+            Upcoming Movie
+          </h1>
+          <Carousel
+            datas={this.state.datas.slice(0, 5)}
+            content={(datas) => (
+              <div
+                className="carousel carousel-center rounded-box"
+                style={{
+                  backgroundImage: `linear-gradient(
+                    rgba(0, 0, 0, 0.5),
+                    rgba(0, 0, 0, 0.5)
+                  ), url(https://image.tmdb.org/t/p/original${datas.poster_path})`,
+                }}
+              >
+                <div className="hero-content text-center text-neutral-content">
+                  <div className="maw-w-md">
+                    <h1 className="mb-5 text-5xl font-bold">{datas.title}</h1>
+                    <p className="mb-5">{datas.overview}</p>
+                  </div>
+                </div>
+              </div>
+            )}
+            />
+        </div>
         <div>
           <h1 className="my-10 text-center text-5xl text-salte-900 dak:text-white">
             Now playing
@@ -109,6 +151,23 @@ export default class Index extends Component<PropsType, StateType> {
                   />
                 ))}
           </div>
+          <div className="btn-group w-full justify-center">
+          <button
+            className="btn"
+            onClick={() => this.prevPage()}
+            disabled={this.state.page === 1}
+          >
+            «
+          </button>
+          <button className="btn">{this.state.page}</button>
+          <button
+            className="btn"
+            onClick={() => this.nextPage()}
+            disabled={this.state.page === this.state.totalPage}
+          >
+            »
+          </button>
+        </div>
         </div>
          
       </Layout>
