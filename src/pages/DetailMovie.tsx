@@ -3,34 +3,25 @@ import moment from "moment";
 
 import { LoadingAnimation } from "../components/Loading";
 import Layout from "../components/Layout";
-import Button from "../components/Button";
+import Hero from "../components/Hero";
+import { withRouter } from "../utils/navigation";
+import { MovieType, VideoType } from "../utils/types/movie";
 
-type GenreType = {
-  id?: number;
-  name?: string;
-};
-
-interface DataType {
-  id?: number;
-  title?: string;
-  poster_path?: string;
-  overview?: string;
-  release_date?: string;
-  runtime?: number;
-  genres?: GenreType[];
+interface PropsType {
+  params?: any;
 }
-
-interface PropsType {}
 
 interface StateProps {
   loading: boolean;
-  data: DataType;
+  data: MovieType;
+  videos: VideoType[];
 }
-export default class DetailMovie extends Component<PropsType, StateProps> {
+class DetailMovie extends Component<PropsType, StateProps> {
   constructor(props: PropsType) {
     super(props);
     this.state = {
       data: {},
+      videos: [],
       loading: true,
     };
   }
@@ -40,14 +31,16 @@ export default class DetailMovie extends Component<PropsType, StateProps> {
   }
 
   fetchData() {
+    const { id_movie } = this.props.params;
     fetch(
-      `https://api.themoviedb.org/3/movie/683328?api_key=${
+      `https://api.themoviedb.org/3/movie/${id_movie}?api_key=${
         import.meta.env.VITE_API_KEY
-      }&language=en-US`
+      }&language=en-US&append_to_response=videos`,
+      { method: "GET" }
     )
       .then((response) => response.json())
       .then((data) => {
-        this.setState({ data });
+        this.setState({ data, videos: data.videos.results });
       })
       .catch((error) => {
         alert(error.toString());
@@ -61,6 +54,7 @@ export default class DetailMovie extends Component<PropsType, StateProps> {
         {this.state.loading ? (
           <LoadingAnimation />
         ) : (
+          <>
           <div className="w-full bg-cover bg-center bg-no-repeat" style={{
             backgroundImage: `url("https://image.tmdb.org/t/p/w500${this.state.data.poster_path}")`,
           }}>
@@ -88,16 +82,28 @@ export default class DetailMovie extends Component<PropsType, StateProps> {
               </p>
               <p className="text-lg font-medium text-black dark:text-white">Overview: {this.state.data.overview}</p>
             </div>
-            <Button
-              className="btn bg-zinc-500 p-2 font-bold text-white hover: bg-zinc-400/90 dark:bg-zinc-800 dark:hover:bg-zinc-700/90"
-              label="WATCH NOW"
-            />
             </div>
           </div>
           </div>
           </div>
+          <Hero
+          datas={this.state.videos.slice(0, 5)}
+          content={(data) => (
+            <iframe
+              width="100%"
+              height="380"
+              src={`https://www.youtube.com/embed/${data.key}`}
+              title={data.name}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            />
+          )}
+        />
+        </>
         )}
       </Layout>
     );
   }
 }
+
+export default withRouter(DetailMovie);

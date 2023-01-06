@@ -1,25 +1,21 @@
 // Constructor start
 import React, { Component } from "react";
 import axios from "axios";
+import InfiniteScroll from 'react-infinite-scroll-component';
 
-import Layout from "../components/Layout";
-import Card from "../components/Card";
-import Hero from "../components/Hero";
-import Button from "../components/Button";
 import { LoadingAnimation } from "../components/Loading";
-
-interface DatasType {
-  id: number;
-  title: string;
-  poster_path: string;
-  overview?: string;
-}
+import Layout from "../components/Layout";
+import Hero from "../components/Hero";
+import Card from "../components/Card";
+import { MovieType } from "../utils/types/movie";
 
 interface PropsType {}
 
 interface StateType {
   loading: boolean;
-  datas: DatasType[];
+  datas: MovieType[];
+  page: number;
+  totalPage: number;
 }
 
 export default class Index extends Component<PropsType, StateType> {
@@ -28,28 +24,42 @@ export default class Index extends Component<PropsType, StateType> {
     this.state = {
       datas: [],
       loading: true,
+      page: 1,
+      totalPage: 1,
     };
   }
 
   componentDidMount() {
-    this.fetchData();
+    this.fetchData(1);
   }
 
-  fetchData() {
+  fetchData(page: number) {
     axios
       .get(
-        `https://api.themoviedb.org/3/movie/now_playing?api_key=${
+        `now_playing?api_key=${
           import.meta.env.VITE_API_KEY
-        }&language=en-US&page=1`
+        }&language=en-US&page=1${page}`
       )
       .then((data) => {
-        const { results } = data.data;
-        this.setState({ datas: results });
+        const { results, total_pages } = data.data;
+        this.setState({ datas: results, totalPage: total_pages });
       })
       .catch((error) => {
         alert(error.toString());
       })
       .finally(() => this.setState({ loading: false }));
+  }
+
+  handleFavorite(data: MovieType) {
+    const checkExist = localStorage.getItem("FavMovie");
+    if (checkExist) {
+      let parseFav: MovieType[] = JSON.parse(checkExist);
+      parseFav.push(data);
+      localStorage.setItem("FavMovie", JSON.stringify(parseFav));
+    } else {
+      localStorage.setItem("FavMovie", JSON.stringify([data]));
+      alert("Movie Added to Fav");
+    }
   }
 
   render() {
@@ -72,10 +82,6 @@ export default class Index extends Component<PropsType, StateType> {
                   <div className="maw-w-md">
                     <h1 className="mb-5 text-5xl font-bold">{datas.title}</h1>
                     <p className="mb-5">{datas.overview}</p>
-                    <Button
-                      className="btn bg-zinc-500 p-2 font-bold text-white hover: bg-zinc-400/90 dark:bg-zinc-800 dark:hover:bg-zinc-700/90"
-                      label="SEE DETAIL"
-                    />
                   </div>
                 </div>
               </div>
@@ -97,10 +103,14 @@ export default class Index extends Component<PropsType, StateType> {
                     key={data.id}
                     title={data.title}
                     image={data.poster_path}
+                    id={data.id}
+                    labelButton="ADD TO FAVORITE"
+                    onClickFav={() => this.handleFavorite(data)}
                   />
                 ))}
           </div>
         </div>
+         
       </Layout>
     );
   }

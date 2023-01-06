@@ -1,9 +1,12 @@
-import { FC, ReactNode, useState, useRef, useEffect } from "react";
+import { FC, ReactNode, useState, useRef, useEffect, Component } from "react";
+import Button from "./Button";
 
 interface HeroProps {
   datas: any[];
   content: (data: any) => ReactNode;
 }
+
+
 
 const Hero: FC<HeroProps> = ({ datas, content }) => {
   const maxScrollWidth = useRef(0);
