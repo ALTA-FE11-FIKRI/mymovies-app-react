@@ -1,4 +1,4 @@
-import { FC, ReactNode, useState, useRef, useEffect, Component } from "react";
+import { FC, ReactNode, useState, useRef, useEffect } from "react";
 
 interface HeroProps {
   datas: any[];
@@ -54,7 +54,7 @@ const Hero: FC<HeroProps> = ({ datas, content }) => {
   }, []);
 
   return (
-    <div className="h-96 w-full ">
+      <div className="h-96 w-full ">
       <div className="relative h-full w-full overflow-hidden">
         <div className="top left absolute flex h-full w-full justify-between">
           <button
@@ -100,7 +100,8 @@ const Hero: FC<HeroProps> = ({ datas, content }) => {
             </svg>
           </button>
         </div>
-        <div className="carousel w-full h-full" ref={hero}>
+        <div className="carousel w-full min-h-[60vh]"
+         ref={hero}>
           {datas.map((data, index) => (
             <div
               id={index.toString()}

@@ -1,10 +1,8 @@
-import React, { Component } from 'react'
 import { Link } from "react-router-dom"
 
-export default class Navbar extends Component {
-  render() {
-    return (
-        <div className="navbar sticky top-0 z-50 border-gray-200 bg-zinc-900">
+const Navbar = () => {
+  return (
+    <div className="navbar sticky top-0 z-50 border-gray-200 bg-zinc-900">
         <div className="flex-1">
           <Link to="/" className=' btn btn-ghost normal-case text-xl'>
           <a className="flex-1 text-2xl text-white">Cinephile</a>
@@ -32,6 +30,8 @@ export default class Navbar extends Component {
           </div>
         </div>
       </div>
-    )
-  }
-}
+
+  );
+};
+
+export default Navbar;

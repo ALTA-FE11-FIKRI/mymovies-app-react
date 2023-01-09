@@ -1,4 +1,4 @@
-import { FC, ReactNode, useState, useRef, useEffect, Component } from "react";
+import { FC, ReactNode, useState, useRef, useEffect } from "react";
 
 interface CarouselProps {
   datas: any[];
@@ -7,10 +7,10 @@ interface CarouselProps {
 
 
 
-const Hero: FC<CarouselProps> = ({ datas, content }) => {
+const Carousel: FC<CarouselProps> = ({ datas, content }) => {
   const maxScrollWidth = useRef(0);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const hero = useRef<HTMLDivElement>(null);
+  const carousel = useRef<HTMLDivElement>(null);
 
   const movePrev = () => {
     if (currentIndex > 0) {
@@ -20,8 +20,8 @@ const Hero: FC<CarouselProps> = ({ datas, content }) => {
 
   const moveNext = () => {
     if (
-      hero.current !== null &&
-      hero.current.offsetWidth * currentIndex <= maxScrollWidth.current
+      carousel.current !== null &&
+      carousel.current.offsetWidth * currentIndex <= maxScrollWidth.current
     ) {
       setCurrentIndex((prevState) => prevState + 1);
     }
@@ -32,9 +32,9 @@ const Hero: FC<CarouselProps> = ({ datas, content }) => {
       return currentIndex <= 0;
     }
 
-    if (direction === "next" && hero.current !== null) {
+    if (direction === "next" && carousel.current !== null) {
       return (
-        hero.current.offsetWidth * currentIndex >= maxScrollWidth.current
+        carousel.current.offsetWidth * currentIndex >= maxScrollWidth.current
       );
     }
 
@@ -42,14 +42,14 @@ const Hero: FC<CarouselProps> = ({ datas, content }) => {
   };
 
   useEffect(() => {
-    if (hero !== null && hero.current !== null) {
-      hero.current.scrollLeft = hero.current.offsetWidth * currentIndex;
+    if (carousel !== null && carousel.current !== null) {
+      carousel.current.scrollLeft = carousel.current.offsetWidth * currentIndex;
     }
   }, [currentIndex]);
 
   useEffect(() => {
-    maxScrollWidth.current = hero.current
-      ? hero.current.scrollWidth - hero.current.offsetWidth
+    maxScrollWidth.current = carousel.current
+      ? carousel.current.scrollWidth - carousel.current.offsetWidth
       : 0;
   }, []);
 
@@ -101,12 +101,12 @@ const Hero: FC<CarouselProps> = ({ datas, content }) => {
           </button>
         </div>
         <div className="carousel w-full h-full gap-3"
-         ref={hero}>
+         ref={carousel}>
           {datas.map((data, index) => (
             <div
               id={index.toString()}
               key={index}
-              className="carousel-item relative w-[66vh] h-full"
+              className="carousel-item relative w-[50vh] h-full"
             >
               {content(data)}
             </div>
@@ -118,4 +118,4 @@ const Hero: FC<CarouselProps> = ({ datas, content }) => {
   );
 };
 
-export default Hero;
+export default Carousel;
