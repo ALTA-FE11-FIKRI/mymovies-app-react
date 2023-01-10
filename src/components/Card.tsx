@@ -19,7 +19,7 @@ const Card: FC<CardProps> = ({ id, image, title, labelButton, onClickFav }) => {
   };
 
   return (
-    <div className="card-compact card rounded-lg bg-zinc-500 shadow-lg shadow-black dark:bg-base-100 transform transition duration-500 hover:z-20 hover:scale-110">
+    <div className="card-compact card rounded-lg-md-sm bg-white shadow-lg-sm shadow-black dark:bg-zinc-900 transform transition duration-500 hover:z-20 hover:scale-110">
         <figure onClick={() => onClickDetail()}>
           <img
             className="aspect-auto object-contain"
@@ -28,7 +28,7 @@ const Card: FC<CardProps> = ({ id, image, title, labelButton, onClickFav }) => {
           />
         </figure>
         <div className="card-body items-center justify-between text-center">
-          <h2 className="card-title text-white"
+          <h2 className="card-title text-black dark:text-white"
           onClick={() => onClickDetail()}
           >{title}</h2>
           <div className="card-actions">

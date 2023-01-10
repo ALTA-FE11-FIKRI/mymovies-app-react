@@ -5,8 +5,6 @@ interface CarouselProps {
   content: (data: any) => ReactNode;
 }
 
-
-
 const Carousel: FC<CarouselProps> = ({ datas, content }) => {
   const maxScrollWidth = useRef(0);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -54,7 +52,7 @@ const Carousel: FC<CarouselProps> = ({ datas, content }) => {
   }, []);
 
   return (
-      <div className="h-96 w-full ">
+    <div className="h-96 w-full ">
       <div className="relative h-full w-full overflow-hidden">
         <div className="top left absolute flex h-full w-full justify-between">
           <button
@@ -100,8 +98,7 @@ const Carousel: FC<CarouselProps> = ({ datas, content }) => {
             </svg>
           </button>
         </div>
-        <div className="carousel w-full h-full gap-3"
-         ref={carousel}>
+        <div className="carousel w-full h-full gap-3" ref={carousel}>
           {datas.map((data, index) => (
             <div
               id={index.toString()}
@@ -113,7 +110,6 @@ const Carousel: FC<CarouselProps> = ({ datas, content }) => {
           ))}
         </div>
       </div>
-      
     </div>
   );
 };

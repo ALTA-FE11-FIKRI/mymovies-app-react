@@ -4,11 +4,12 @@ import axios from "axios";
 
 import { LoadingAnimation } from "../components/Loading";
 import { MovieType } from "../utils/types/movie";
-import { useTitle } from "../utils/hooks/cHooks";
+import { useTitle } from "../utils/hooks/customHooks";
 import Carousel from "../components/Carousel";
 import Layout from "../components/Layout";
 import Hero from "../components/Hero";
 import Card from "../components/Card";
+import Button from "../components/Button";
 
 const Index = () => {
   useTitle("Cinephile - Home");
@@ -75,13 +76,18 @@ const Index = () => {
                 backgroundImage: `linear-gradient(
                     rgba(0, 0, 0, 0.5),
                     rgba(0, 0, 0, 0.5)
-                  ), url(https://image.tmdb.org/t/p/original${datas.poster_path}) `,
+                  ), url(https://image.tmdb.org/t/p/original${datas.poster_path})`,
               }}
             >
               <div className="hero-content text-center text-neutral-content">
                 <div className="maw-w-md">
                   <h1 className="mb-5 text-5xl font-bold">{datas.title}</h1>
                   <p className="mb-5">{datas.overview}</p>
+                  <Button
+                    label="SEE DETAIL"
+                    id="btn-topRated-details"
+                    className="btn bg-zinc-500 p-2 font-bold text-white hover: bg-zinc-400/90 dark:bg-zinc-800 dark:hover:bg-zinc-700/90"
+                  />
                 </div>
               </div>
             </div>
@@ -89,7 +95,7 @@ const Index = () => {
         />
       )}
       <div className="flex flex-col justify-center gap-3 p-5">
-        <h1 className="my-10 text-center text-5xl text-salte-900 dak:text-white">
+        <h1 className="my-10 text-center text-5xl text-salte-900 text-black dark:text-white">
           Upcoming Movie
         </h1>
         <Carousel
@@ -107,7 +113,6 @@ const Index = () => {
               <div className="hero-content text-center text-neutral-content">
                 <div className="maw-w-md">
                   <h1 className="mb-5 text-5xl font-bold">{datas.title}</h1>
-                  <p className="mb-5">{datas.overview}</p>
                 </div>
               </div>
             </div>
