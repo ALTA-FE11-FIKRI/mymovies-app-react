@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { useState, useMemo, useEffect } from "react";
 
-import Homepage from "../pages/index";
+import Homepage from "../pages/Index";
 import DetailMovie from "../pages/DetailMovie";
 import Favorite from "../pages/Favorite";
 
