@@ -2,17 +2,17 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import moment from "moment";
 
-import { LoadingAnimation } from "../components/Loading";
-import Layout from "../components/Layout";
-import Hero from "../components/Hero";
-import { MovieType, VideoType } from "../utils/types/movie";
-import { useTitle } from "../utils/hooks/customHooks";
-import Button from "../components/Button";
+import { LoadingAnimation } from "components/Loading";
+import Layout from "components/Layout";
+import Hero from "components/Hero";
+import { MovieType, VideosType } from "utils/types/movie";
+import { useTitle } from "utils/hooks/customHooks";
+import Button from "components/Button";
 
 const DetailMovie = () => {
   const { id_movie } = useParams();
-  const [data, setData] = useState<MovieType>([]);
-  const [videos, setVideos] = useState<VideoType[]>([]);
+  const [data, setData] = useState<MovieType>({});
+  const [videos, setVideos] = useState<VideosType[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   useTitle(`${data.title} - Cinephile`);
 

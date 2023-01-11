@@ -3,7 +3,7 @@ import { useContext } from "react";
 
 import Button from "./Button";
 
-import { ThemeContext } from "../utils/context";
+import { ThemeContext } from "utils/context";
 
 const Navbar = () => {
   const { theme, setTheme } = useContext(ThemeContext);

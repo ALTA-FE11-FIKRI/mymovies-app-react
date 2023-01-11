@@ -1,16 +1,15 @@
 type GenreType = {
     id?: number;
     name?: string;
-};
-
-export interface VideoType {
+  };
+  
+  export interface VideosType {
     id?: string;
     key?: string;
     name?: string;
-}
-
-export interface MovieType {
-    map(arg0: (data: any) => JSX.Element): import("react").ReactNode;
+  }
+  
+  export interface MovieType {
     id?: number;
     title?: string;
     poster_path?: string;
@@ -19,6 +18,7 @@ export interface MovieType {
     runtime?: number;
     genres?: GenreType[];
     videos?: {
-        result: VideoType[];
+      results: VideosType[];
     };
-}
+  }
+  

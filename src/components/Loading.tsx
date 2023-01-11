@@ -1,6 +1,6 @@
 import Lottie from "lottie-react";
 
-import MovieAnimation from "../assets/127168-3-quadrados.json"
+import MovieAnimation from "assets/127168-3-quadrados.json"
 
 export const SkeletonLoading = () => {
    return (

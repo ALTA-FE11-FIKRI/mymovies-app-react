@@ -1,33 +1,25 @@
-import React, { useState, useEffect, FC } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
-import { LoadingAnimation } from "../components/Loading";
-import Layout from "../components/Layout";
-import Card from "../components/Card";
-import { MovieType } from "../utils/types/movie";
-import { useTitle } from "../utils/hooks/customHooks";
-import Button from "../components/Button";
+import { setFavorites } from "utils/redux/reducers/reducer";
+import { useTitle } from "utils/hooks/customHooks";
+import { RootState } from "utils/types/redux";
+import { MovieType } from "utils/types/movie";
+
+import Layout from "components/Layout";
+import Card from "components/Card";
+import Button from "components/Button";
 
 const Favorite = () => {
+  const dispatch = useDispatch();
   useTitle("CInephile - My Favorite");
-  const [datas, setDatas] = useState<MovieType[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  function fetchData() {
-    const getFavorite = localStorage.getItem("FavMovie");
-    if (getFavorite) {
-      setDatas(JSON.parse(getFavorite));
-    }
-    setLoading(false);
-  }
+  const datas = useSelector((state: RootState) => state.data.favorites);
+ 
 
   function removeFavorite(data: MovieType) {
     let dupeDatas: MovieType[] = datas.slice();
     const filterData = dupeDatas.filter((item) => item.id !== data.id);
     localStorage.setItem("FavMovie", JSON.stringify(filterData));
+    dispatch(setFavorites(filterData));
     alert(`Delete ${data.title} from favorite list`);
   }
 
@@ -38,11 +30,7 @@ const Favorite = () => {
           Fav Movies
         </h1>
         <div className="m-2 grid grid-flow-row auto-rows-max grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-4">
-          {loading
-            ? [...Array(20).keys()].map((data) => (
-                <LoadingAnimation key={data} />
-              ))
-            : datas.map((data) => (
+          {datas.map((data) => (
                 <Card
                   key={data.id}
                   title={data.title}
